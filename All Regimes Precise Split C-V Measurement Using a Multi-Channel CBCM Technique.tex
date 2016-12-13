@@ -1,0 +1,360 @@
+
+
+
+
+\documentclass[journal]{IEEEtran}
+
+\usepackage{amsmath}
+\usepackage{graphicx} 
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{balance}
+\usepackage{cite}
+\usepackage{slashbox}
+\usepackage{array}
+
+\usepackage{epstopdf}
+\graphicspath{{../eps/}{../fig/}}
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+
+\title{All Regimes Precise Split C-V Measurement Using a Multi-Channel CBCM Technique}
+%
+% author names and IEEE memberships
+
+
+\author{Peiyong Zhang, Qing Wan, Chenhui Feng and Huiyan Wang~\IEEEmembership{Member,~IEEE}% <-this % stops a space
+\thanks{Peiyong Zhang is with the Institute of VLSI Design, Zhejiang University, Hangzhou, Zhejiang, People's Republic of China e-mail: zhangpy@vlsi.zju.edu.cn }% <-this % stops a space
+\thanks{Qing Wan and Chenhui Feng are with the College of Electrical Engineering, Zhejiang University.}% <-this % stops a space
+\thanks{Huiyan Wang is with the Department of Computer Science and Information Engineering, Zhejiang Gongshang University.}}
+
+
+
+
+% The paper headers
+\markboth{IEEE TRANSACTIONS ON SEMICONDUCTOR MANUFACTURING,~Vol.~00, No.~00, OCTOBER~2016}%
+{Shell \MakeLowercase{\textit{et al.}}: All Regimes Precise Split C-V Measurement Using a Multi-Channel CBCM Technique}
+
+
+
+
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+In this work, we propose a multi-channel charge-based capacitance measurement (MCCBCM) technique for the split parasitic capacitance-voltage (C-V) measurement of MOSFETs. The proposed technique is developed from a leakage- and parasitic-insensitive CBCM technique, which is applied to measure a single capacitor. Using the multi-channel CBCM technique, we can measure all of the components of the split capacitances of a single MOSFET, which are related to its terminals, such as the gate-to drain capacitance ($C_{GD}$), gate-to-source capacitance ($C_{GS}$), gate-to-bulk capacitance ($C_{GB}$), and so on. We designed a complex control methodology for the multi-channel CBCM circuit. Specific control methods are provided for different split C-V curves when MOSFETs work in different regimes, including the accumulation, depletion and inversion regimes. Our measurement resolution is better than 0.01 fF, which is hundreds of times better than those of previous works.
+
+\end{abstract}
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+split C-V, all regimes, MOSFETs' parasitic, CBCM, multi-channel.
+\end{IEEEkeywords}
+
+
+
+
+
+\IEEEpeerreviewmaketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+\IEEEPARstart{P}{arasitic} capacitances have become a critical issue regarding the scale of advanced MOS devices. The split capacitance-voltage (C-V) measurement has been successfully demonstrated for some important circuit design parameters, such as the effective mobility \cite{1}, and effective channel length \cite{2}. However, all previous split C-V techniques are based on the LCR meter, and the measurement resolution ranges from the femto-Farad level to the pico-Farad level \cite{1,2,3,4,5}. Because the parasitic capacitance of MOSFETs of advanced technology nodes, such as FinFET is at the sub-femto-Farad level, previous techniques are no longer applicable. Moreover, the parasitic capacitance models of advanced technology nodes \cite{6} must be verified with actual measurement results.
+
+The charge-based capacitance measurement (CBCM) technique is evaluated as a much more accurate method the measure the capacitance than the LCR meter method \cite{7}. There are many improved versions of CBCM for the C-V measurement (\cite{8,9,10}). However, previous CBCM techniques can only measure a single capacitor. We further improve them and propose a multi-channel charge-based capacitance measurement (MCCBCM) technique. This technique combines both advantages of previous CBCM and split C-V techniques. Therefore, we can measure the split C-V of MOSFETs with a much higher resolution. We designed a complex control methodology for the multi-channel CBCM circuit. Using different control signals, we can measure all of the components of MOSFET parasitic capacitances, including the gate-to-drain capacitance ($C_{GD}$), gate-to-source capacitance ($C_{GS}$), gate-to-bulk capacitance ($C_{GB}$), and junction capacitance ($C_{DB}$ or $C_{SB}$). These components can be characterized when MOSFETs work in all regimes: accumulation, depletion and inversion regimes. The entire chip is realized in the form of device matrix array (DMA), so that different sizes of devices under test (DUT) are measured. 
+
+To introduce the MCCBCM technique, first, we present its circuit structure in Section \uppercase\expandafter{\romannumeral2}. Then, in Section \uppercase\expandafter{\romannumeral3}, we provide the specific control method that corresponds to different split C-V measurements in different regimes. In Section \uppercase\expandafter{\romannumeral4}, we present a part of our measurement result to verify our technique.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The MCCBCM Circuit Structure}
+
+We design the MCCBCM circuit structure based on a proposed leakage- and parasitics-insensitive CBCM technique in \cite{9}. Compared with other CBCM methods, the leakage- and parasitics-insensitive CBCM has the advantage of being insensitive to parasitic capacitances. This characteristic makes it easier to separate one component of all MOSFETs' parasitic capacitances from the others. The MCCBCM technique inherits this characteristic, but it is more complicated. It can split all of the capacitance components of a single MOSFET device.
+
+
+\subsection{The Leakage- and Parasitics-insensitive CBCM Technique}
+
+Fig.\ref{Fig1} shows the illustration of the leakage- and parasitics-insensitive CBCM technique and its accompanying waveform. The test structure contains two channels, each of which connects to one terminal of the device under test (DUT). Each channel contains two paths: a the positive path, and a negative path. Terminal "A" is charged through the positive path by $V_{PA}$ and discharged through the negative path by $V_{NA}$, and terminal "B" is similar. Two clock signals, clk0 and clk1, are applied to control the charge and discharge processes of terminals "A" and "B". There is a small phase delay between clk0 and clk1, so that the charge and discharge currents of terminal "A" can be completely recorded without the  switching delay effect.  
+
+
+The operating process of this test structure is described as follows. First, clk0 is on and terminal "A" is pre-charged. $V_{PA}$ should be equal to $V_{NA}$ to reduce the effect of the error charge current and leakage current. After a small phase delay, clk1 turns on, and terminal "B" is charged. The corresponding charge current $I_{PA}$ is measured at terminal "A". The discharge process is the opposite. The discharge current is $I_{NA}$. Commonly only $I_{NA}$ is measured because it contains a smaller leakage current. Then the DUT capacitance is expressed as
+
+
+%Equation (1)
+\begin{align}
+  C_{DUT}(V_{AB})=-\frac{\partial Q_{na}(V_{AB})}{\partial V_{AB}}=-\frac{\partial I_{NA}(V_{AB})}{\partial V_{AB}\cdot f_{clk}}
+\end{align}
+where $V_{AB}=V_{PA}-V_{PB}$ and $f_{clk}$ is the frequency of clk0 and clk1. By varying $V_{PB}$ by a tiny value $\Delta V$, and measuring the variation of $I_{NA}$, we can derive the DUT capacitance from a numerical differential calculation.
+
+
+%Fig.1
+\begin{figure}
+\centering{\includegraphics[width=80mm]{LPECBCM_unit.eps}}
+\caption{Test structure (left) and accompany waveform (right) of the improved CBCM unit. }
+\label{Fig1}
+\end{figure}
+
+
+
+
+\subsection{The Multi-channel CBCM Circuit Structure}
+
+%Fig.2
+\begin{figure}
+\centering{\includegraphics[width=90mm]{MCCBCM_unit.eps}}
+\caption{Test structure of the MCCBCM technique. }
+\label{Fig2}
+\end{figure}
+
+
+
+
+The leakage- and parasitics-insensitive CBCM contains two channels because a capacitor is a two-terminal device. The MCCBCM technique is specially designed for the C-V measurement of multi-terminal devices. Because a MOSFET device is a four-terminal device, we design four channels to split all of its capacitance components. Using some control signals, we can select every two channels for the capacitance measurement. Then, the split C-V between two selected terminals can be measured, and other deselected channels will provide the bias voltage to the DUT MOSFET. Hence, the DUT MOSFET can work in all regimes, and we can perform the measurement in all regimes.  
+
+Fig.\ref{Fig2} shows the test structure of the MCCBCM to measure the split C-V of a MOSFET device. Each channel contains at least two paths: the positive path is controlled by signal $ctrl\_PX$ (X represents G, D, S or B); the negative path is controlled by signal $ctrl\_NX$. The terminals of the DUT MOSFET are charged through the positive paths by $V_{PX}$ and discharged through the negative paths by $V_{NX}$. Two extra paths are required in the drain and source terminals to realize a four-point Kelvin measurement. When MOSFET works the in inversion regime, the four-point Kelvin measurement is necessary to remove the effect of the parasitic IR drop. 
+
+
+Using the control signals $ctrl\_PX$ and $ctrl\_NX$, we can select every two channels for the capacitance measurement. Then, the split C-V between two selected terminals can be measured. Other deselected channels will provide bias voltage to the DUT MOSFET. Hence the DUT MOSFET can work in all regimes, and we can perform the measurement in all regimes.
+
+The control signals $ctrl\_PX$ and $ctrl\_NX$ are generated by a combinational circuit, which is shown in the right side of Fig.\ref{Fig2}. We designed two selection commands $sel\_clk\_X$ and $sel\_channel\_X$ to control the generation of $ctrl\_PX$ and $ctrl\_NX$. Table \uppercase\expandafter{\romannumeral1} shows the value of $ctrl\_PX$ given by the combination of these two selection commands. The command $sel\_channel\_X$ decides whether the channel is controlled by the clock signal. If so, $sel\_clk\_X$ selects which clock to use control this channel. At least two channels should be controlled by clock signals: one is controlled by clk0 and the other is controlled by clk1. The ultimate purpose is to create a leakage- and parasitics-insensitive CBCM structure. the specific control method will be shown in the next section.
+
+
+
+%Table.1
+\begin{table}[h]
+\caption{$ctrl\_{PX}$ given by the combination of selection commands}
+{\begin{tabular}{|c|p{2cm}<{\centering}|p{2cm}<{\centering}|}
+\hline
+\backslashbox{$sel\_channel\_X$}{$sel\_clk\_X$} &  0 &  1 \\
+\hline
+0 & clk0 & clk1 \\
+\hline
+1 & VDD & VDD\\
+\hline
+
+
+\end{tabular}}{}
+\end{table}
+
+
+
+
+%Fig.3
+\begin{figure*}
+\centering
+\subfigure[]{
+\label{Fig3a}
+\includegraphics[width=0.35\textwidth]{3a.eps}}
+\subfigure[]{
+\label{Fig3b}
+\includegraphics[width=0.35\textwidth]{3b.eps}}
+\subfigure[]{
+\label{Fig3c}
+\includegraphics[width=0.3\textwidth]{3c.eps}}
+\subfigure[]{
+\label{Fig3d}
+\includegraphics[width=0.3\textwidth]{3d.eps}}
+\subfigure[]{
+\label{Fig3e}
+\includegraphics[width=0.3\textwidth]{3e.eps}}
+
+\caption{(a)(b)Equivalent circuit when $C_{GD}$ is measured in the accumulation and depletion regimes and its accompanying waveforms. (c)(d)Equivalent circuit when $C_{GD}$ is measured in the inversion regime and its accompanying waveforms. (e)Equivalent circuit of a four-point Kelvin measurement to determine the parameters used in (c)}
+\label{Fig3}
+\end{figure*}
+ 
+
+\section{Specific Control Methods for Different Split C-V Measurements}
+
+When a MOSFET works in the accumulation or depletion regime, its channel is cut off and each of its four terminals is isolated from the others. However, when a MOSFET works in the inversion regime, its channel will turn on. The drain and source terminals are connected. The parasitic resistances in the drain and source channels may cause a large parasitic IR drop, which will introduce an error in the final results. According to the effect of the parasitic IR drop, we designed two different control methods of the MCCBCM circuit.
+
+
+
+\subsection{Control Method when the Parasitic IR Drop is Negligible}
+
+When the parasitic IR drop is negligible, we can simply turn the MCCBCM structure into an equivalent leakage- and parasitic-insensitive CBCM structure. Consider the measurement of $C_{GD}$ as an example. First, we should select the gate and drain channels for the capacitance measurement. Therefore, $sel\_channel\_G$ and $sel\_channel\_D$ are set to "0", $sel\_channel\_S$ and $sel\_channel\_B$ are set to "1". Second, we set $sel\_clk\_G$ to "0" and $sel\_clk\_D$ to "1". Then the gate and drain channels are controlled by clk0 and clk1 respectively. The entire test structure is equivalent to the leakage- and parasitic-insensitive CBCM, and the equivalent circuit is shown in Fig.\ref{Fig3a}. We also make the potential $V_{PG}$ equal to $V_{NG}$, and record the charge current at port $V_{NG}$ as $I_{NG}$. According to the final section, the measured $C_{GD}$ is 
+
+%Equation (1)
+\begin{align}
+  C_{GD}(V_{GD})=-\frac{\partial Q_{NG}}{\partial V_{GD}}=-\frac{\partial I_{NG}}{\partial V_{GD}\cdot f_{clk}}
+\end{align}
+
+Commonly we divide the measurement process into two steps to calculate the numerical differentiation. The only difference between them is the tiny variation of $V_{PD}$ ($\Delta V$). Because the channel of MOSFET is cut off, $\Delta V$ will not make $V_{S}$ vary. The potential variation at the drain and source terminals, and the charge current variation are shown in Fig.\ref{Fig3b}. We record the variation of discharge as $\Delta Q_{NG}$; then, $C_{GD}$ is derived as 
+
+
+
+
+%Equation (2)
+\begin{align}
+  C_{GD}(V_{GD})=-\frac{\Delta Q_{NG}}{\Delta V}
+\end{align}
+
+
+%Fig.4
+\begin{figure*}
+\centering
+\subfigure[]{
+\label{Fig4a}
+\includegraphics[width=0.45\textwidth]{chip_architecture.eps}}
+\subfigure[]{
+\label{Fig4b}
+\includegraphics[width=0.5\textwidth]{chip_micrograph.eps}}
+
+
+\caption{(a)Chip architecture.(b)Chip micrograph (inside the dashed frame is the corresponding layout).}
+\label{Fig4}
+\end{figure*}
+
+
+
+
+
+
+\subsection{Control Method when Parasitic IR Drop is not Negligible}
+When the MOSFET works in the inversion regime, the parasitic IR drop at the drain and source terminals are not negligible. To eliminate the effect of the parasitic IR drop, we add a four-point Kelvin measurement structure into our test circuit.
+
+Consider the measurement of $C_{GD}$ as an example. If measured by the method in Section A, the potential variation at the source terminal ($\frac{R_{PS}}{R_{tot}} \Delta V$) will introduce an error to the final result. As Fig.\ref{Fig3b} shows, this error only occurs when clk1 is on. Therefore to eliminate this error, we can add a reverse tiny voltage $\Delta V_{r}$ at the source channel when $clk1$ is on. There exists a certain $\Delta V_{r}$ which makes the potential at source terminal remain constant. Thus, the equivalent test structure after setting the control signals should be similar to Fig.\ref{Fig3c}. To realize the equivalent circuit in Fig.\ref{Fig3c}, $sel\_channel\_S$ is set to "0" and $sel\_clk\_S$ is set to "0".
+
+The potential variation of the drain and source terminals is shown in Fig.\ref{Fig3d}. Without $\Delta V_{r}$, $\Delta V$ will cause the potential of the drain and source terminals ($V_{D}$ and $V_{S}$) to vary by $\Delta V_{D}$ and $\Delta V_{S}$, respectively. Through a simple calculation, we derive $\Delta V_{D}$=$\frac{R_{PD}+R_{ch}}{R_{tot}} \Delta V$ and $\Delta V_{S}$=$\frac{R_{PS}}{R_{tot}} \Delta V$ ($R_{ch}$ is the channel resistance of the DUT MOSFET, where $R_{tot}=R_{PD}+R_{ch}+R_{PS}$). The variation of $V_{S}$ will cause an error to the measurement of $C_{GD}$. We should find a certain $\Delta V_{r}$ to eliminate this variation. The variation of $V_{D}$ will change to $\Delta V{1}$. 
+
+
+However, both $\Delta V_{r}$ and $\Delta V_{1}$ are unknown and are determined by a four-point Kelvin measurement. Because both $\Delta V$ and $\Delta V_{r}$ are added in the positive paths, we set all of channel selection commands ($sel\_channel\_X$) to "1", so that only positive paths are turned on. Two extra paths at the drain and source channels are also turned on to realize the four-point Kelvin measurement. The equivalent circuit is shown in Fig.\ref{Fig3e}. Then, we will determine the value of $\Delta V_{r}$ and $\Delta V_{1}$ in two steps. First, we measure the initial potentials $V_{d}$ and $V_{s}$ at the ports $Dsense$ and $Ssense$, respectively. Second, we increase $V_{PD}$ by $\Delta V$ and $V_{PS}$ by $\Delta V_{r}$. Then, we gradually vary $\Delta V_{r}$ until the potential at port $Ssense$ returns to the initial value. We record the corresponding value of $\Delta V_{r}$, and the variation of the potential at port $Dsense$ as $\Delta V_{1}$. 
+
+Then, we can apply $\Delta V_{r}$ to the $C_{GD}$ measurement. $\Delta V$ and $\Delta V_{r}$ are simultaneously added to the test circuit. We record the variation of discharge at the gate terminal as $\Delta Q_{NG1}$, and $C_{GD}$ is derived by  
+
+%Equation (3)
+\begin{align}
+  C_{GD}(V_{GD})=-\frac{\Delta Q_{NG1}}{\Delta V_{1}}
+\end{align}
+
+
+Other split parasitic capacitances can be similarly characterized. If the parasitic resistance at the selected terminals can be neglected, such as $C_{GB}$ in all regimes and $C_{GS}$ in the accumulation and depletion regimes, use the method in section A. Otherwise, use the method in section B.
+
+
+
+
+
+%Fig.5
+\begin{figure*}
+\centering
+\subfigure[]{
+\label{Fig5a}
+\includegraphics[width=0.3\textwidth]{cgd_diffWL.eps}}
+\subfigure[]{
+\label{Fig5b}
+\includegraphics[width=0.3\textwidth]{cgb_diffWL.eps}}
+\subfigure[]{
+\label{Fig5c}
+\includegraphics[width=0.3\textwidth]{cdb_diffWL.eps}}
+\subfigure[]{
+\label{Fig5d}
+\includegraphics[width=0.3\textwidth]{cgc_diffreg.eps}}
+\subfigure[]{
+\label{Fig5e}
+\includegraphics[width=0.3\textwidth]{cgd_diffreg.eps}}
+\subfigure[]{
+\label{Fig5f}
+\includegraphics[width=0.3\textwidth]{cgb_diffreg.eps}}
+
+\caption{(a)(b)(c)Measurement results of three N-channel MOSFETs' different capacitance components. Their channel width/length are 0.5/0.18 $\mu$m, 1/0.18 $\mu$m and 0.5/0.54 $\mu$m. (d)(e)(f)Measurement results of the same N-channel MOSFET's different split C-V curves. Same component is measured twice in different regimes.}
+\label{Fig5}
+\end{figure*}
+
+
+
+
+
+
+\section{Chip Architecture and Measurement Results}
+ 
+Fig.\ref{Fig4a} shows the chip architecture. The chip is structured in the form of a device matrix array (DMA), so that different sizes of DUT MOSFETs can be efficiently measured. The DMA contains 16 rows, each of which contains 15 MCCBCM units and one reference unit. The $Row\_Sel$ block is applied to select the rows, and the $Col\_Sel$ blocks are applied to select the measurement units. The reference units do not contain DUT MOSFETs and are used to eliminate useless parasitic capacitances. This chip is fabricated using a 180 nm CMOS process with six metallic interconnect layers. The chip micrograph is shown in Fig.\ref{Fig4b}.
+
+We have measured several N-channel MOSFETs with different channel widths and lengths. Fig.\ref{Fig5a}, Fig.\ref{Fig5b} and Fig.\ref{Fig5c} show the C-V curves of the gate-to-drain capacitance ($C_{GD}$), gate-to-bulk capacitance ($C_{GB}$) and drain-to-bulk capacitance ($C_{DB}$). In Fig.\ref{Fig5a}, each curve records the C-V characterization from the accumulation regime to the inversion regime. In the accumulation regime, because the MOSFET channel is cut off, $C_{GD}(W/L=0.5/0.18) \approx C_{GD}(W/L=0.5/0.54) \approx \frac{1}{2} C_{GD}(W/L=1/0.18)$. In the strong inversion regime, MOSFET channel turns on, and the relationship among them is $C_{GD}(W/L=0.5/0.18) \approx \frac{1}{3} C_{GD}(W/L=0.5/0.54) \approx \frac{1}{2} C_{GD}(W/L=1/0.18)$. In Fig.\ref{Fig5b}, we measured $C_{GB}$ from the depletion to the inversion regime. Because of the effect of the effective channel length, $C_{GB}(W/L=0.5/0.54)>3C_{GB}(W/L=1/0.18)$ in the depletion regime. And in Fig.\ref{Fig5c}, we measured $C_{DB}$ in the depletion regime regardless of the channel length. Therefore, the relationship between them is $C_{GD}(W/L=0.5/0.18)>C_{GD}(W/L=0.5/0.18) \approx \ C_{GD}(W/L=0.5/0.54)$, which is consistent with the theoretical analysis. 
+
+We have also measured the split C-V curve of a single N-channel MOSFET in different regimes. When $V_{D}$ remains constant (0 V) and $V_{S}$ varies, when $V_{G}$ sweep from 0 to 1.8 V, working regime of the N-channel MOSFET is different. Fig.\ref{Fig5d}, Fig.\ref{Fig5e} and Fig.\ref{Fig5f} show the C-V curve of gate-to-channel capacitance ($C_{GC}$), gate-to-drain capacitance ($C_{GD}$) and gate-to-bulk capacitance ($C_{GB}$). We easily observe that the measurement resolution is better than 0.01fF. 
+
+
+
+Comparing our work with several previous works, we observe that the measurement resolution is improved by several magnitudes, as shown in Table \uppercase\expandafter{\romannumeral2}. The resolution is notably important for the split C-V measurement of advanced technology nodes. The technique of \cite{5} requires dedicated devices and complex high-frequency experimental setup, which makes it difficult to realize \cite{4}. The techniques of \cite{2} and \cite{3} also require an off-chip LCR-meter to complete their measurement, which will introduce large noise to the final results. In our work, the split C-V is measured with on-chip combinational circuits instead of LCR-meters. Therefore, it is notably convenient to measure an array of DUTs with much less noise.  
+
+
+
+%Table.2
+\begin{table}[h]
+\caption{Comparison of split C-V measurement results in several works}
+{\begin{tabular}{|p{1.5cm}<{\centering}|p{1.3cm}<{\centering}|p{1.3cm}<{\centering}|p{1.3cm}<{\centering}|p{1.3cm}<{\centering}|}
+\hline
+ &this work&et al\cite{2}&et al\cite{3}&et al\cite{5}\\
+\hline
+$DUT$ & sub-fF &pF& pF & 10fF \\
+$magnitude$ &&&&\\
+\hline
+$Resolution$ & 0.01fF &20fF& 20fF & 0.5fF\\
+\hline
+$Frequency$ & 400MHz &1MHz& 100MHz & 10GHz\\
+\hline
+$Measured$  &On-chip&LCR-meter&LCR-meter&LCR-meter  \\
+$with$      &circuits&&&  \\
+\hline
+
+\end{tabular}}{}
+\end{table}
+
+
+
+
+
+
+
+
+\section{Conclusion}
+
+In this work, we provide a precise method to characterize the split C-V of MOSFET devices in all regimes. We apply the CBCM technique to split the C-V measurement and propose a multi-channel charge-based capacitance measurement (MCCBCM) technique for the first time. With this technique, we can measure all of the components of the parasitic capacitances of MOSFETs. Specific measurement processes are provided when we measure different components in different regimes. We also designed a device matrix array (DMA) to efficiently measure MOSFETs with different sizes. The MCCBCM technique is validated by analyzing our measurement results to determine whether they are theoretically correct. The measurement resolution of our technique is better than 0.01 fF, which is significantly better than those of previous works.  
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section*{Acknowledgment}
+
+
+This work was supported in part by the National Science Foundation of China under grant nos. 61204111, 61474098 and 61472362, and in part by the Zhejiang Province Science and Technology Plan Project under grant no. 2014C33070, and in part by Opening Foundation of Information Security Technology Key Laboratory.
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\bibliographystyle{../bib/myIEEEtran}
+\bibliography{IEEEabrv,../bib/REFERENCE}
+\end{document}
+
+
